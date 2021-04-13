@@ -28,7 +28,7 @@ podTemplate(label: 'mypod', containers: [
         container('terraform') {
        withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
             script {
-            dir('module/backend'){
+            dir('module/frontend'){
              sh "terraform init"
             }
           }
@@ -37,12 +37,10 @@ podTemplate(label: 'mypod', containers: [
     }
       stage('Terraform plan') {
         container('terraform') {
-        withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID'),
-          usernamePassword(credentialsId: 'DB_PASSWORD_CRED_ID', usernameVariable: 'db_username', passwordVariable: 'db_password')  
-        ]){
+        withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
           script {
-            dir('module/backend'){
-                sh "terraform plan -var 'db_password=$db_password' -var 'db_user=$db_username' -var 'ami=$AMI_ID' -out plan.json"
+            dir('module/frontend'){
+                sh "terraform plan 'ami=$AMI_ID' -out plan.json"
               }
             }
           }
@@ -52,7 +50,7 @@ podTemplate(label: 'mypod', containers: [
         container('terraform') {
         withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
           script {
-            dir('module/backend'){
+            dir('module/frontend'){
                 sh "terraform apply plan.json"
               }
             }

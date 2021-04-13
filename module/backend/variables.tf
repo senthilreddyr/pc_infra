@@ -6,7 +6,7 @@ variable "region" {
   description = "The region to launch the bastion host"
 }
 
-variable "be_ami" {
+variable "ami" {
   # default = "ami-0729911f6d7f3f1db"
 }
 
