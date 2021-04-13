@@ -1,0 +1,53 @@
+podTemplate(label: 'mypod', containers: [
+    containerTemplate(name: 'terraform',image: 'hashicorp/terraform:latest', ttyEnabled: true, command: 'cat')
+  ],
+  volumes: [
+    hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock'),
+  ]
+  ) {
+    node('mypod') {
+        stage('Get latest version of code') {
+                script{
+                   def scmVar =  checkout([
+                        $class: 'GitSCM', branches: scm.branches,
+                        extensions: scm.extensions + [[$class: 'CleanBeforeCheckout', deleteUntrackedNestedRepositories: true]],
+                        userRemoteConfigs: scm.userRemoteConfigs])
+                }
+        }
+      stage('Terraform init') {
+        container('terraform') {
+       withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+            script {
+            dir('module/baseinfra'){
+             sh "pwd"
+             sh "ls -la"
+             sh "terraform init"
+            }
+          }
+        }
+      }
+    }
+      stage('Terraform plan') {
+        container('terraform') {
+        withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+          script {
+            dir('module/baseinfra'){
+                sh "terraform plan -out plan.json"
+              }
+            }
+          }
+        }
+      }
+      stage('Terraform Apply') {
+        container('terraform') {
+        withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
+          script {
+            dir('module/baseinfra'){
+                sh "terraform apply plan.json"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
