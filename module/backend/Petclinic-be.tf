@@ -47,11 +47,11 @@ resource "aws_launch_configuration" "petclinic_be" {
 
 resource "aws_autoscaling_group" "petclinic_be_asg" {
   name                      = "petclinic_be_asg"
-  max_size                  = 2
-  min_size                  = 1
+  max_size                  = var.instance_max_count
+  min_size                  = var.instance_min_count
   health_check_grace_period = 120
   health_check_type         = "EC2"
-  desired_capacity          = 1
+  desired_capacity          = var.desired_capacity
   launch_configuration      = aws_launch_configuration.petclinic_be.name
   target_group_arns         = [data.aws_lb_target_group.be_tg.arn]
   vpc_zone_identifier       = data.aws_subnet_ids.private_subnet.ids
