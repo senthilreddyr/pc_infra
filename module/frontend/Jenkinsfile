@@ -40,7 +40,7 @@ podTemplate(label: 'mypod', containers: [
         withCredentials([usernamePassword(credentialsId: 'aws', passwordVariable: 'AWS_SECRET_ACCESS_KEY', usernameVariable: 'AWS_ACCESS_KEY_ID')]){
           script {
             dir('module/frontend'){
-                sh "terraform plan 'ami=$AMI_ID' -out plan.json"
+                sh "terraform plan -var 'ami=$AMI_ID' -out plan.json"
               }
             }
           }
