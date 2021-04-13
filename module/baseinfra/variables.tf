@@ -1,27 +1,30 @@
 variable "environment" {
-  description = "The Deployment environment"
+  description = "Environment"
+  type        = string
 }
 
 variable "vpc_cidr" {
-  description = "The CIDR block of the vpc"
+  description = "CIDR block for vpc"
+  type        = list
 }
 
 variable "public_subnets_cidr" {
+  description = "CIDR block for public subnet"
   type        = list
-  description = "The CIDR block for the public subnet"
 }
 
 variable "private_subnets_cidr" {
+  description = "CIDR block for private subnet"
   type        = list
-  description = "The CIDR block for the private subnet"
 }
 
 variable "region" {
-  description = "The region to launch the bastion host"
+  description = "AWS Region"
+  type        = string
 }
 
 variable "availability_zones" {
+  description = "az for resource"
   type        = list
-  description = "The az that the resources will be launched"
   default = ["ap-south-1a", "ap-south-1b"]
 }

@@ -316,7 +316,6 @@ resource "aws_alb" "be_alb" {
   }
 }
 
-
 resource "aws_alb_listener" "be_alb_Listener" {
   load_balancer_arn = aws_alb.be_alb.arn
   port              = "80"
