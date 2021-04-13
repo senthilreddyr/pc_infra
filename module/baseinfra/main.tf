@@ -167,7 +167,7 @@ resource "aws_security_group" "fe" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["202.83.58.148/32"]
   }
 
   ingress {
@@ -206,7 +206,6 @@ resource "aws_security_group" "be_lb" {
   }
 }
 
-
 resource "aws_security_group" "be" {
   name        = "be_sg"
   vpc_id      = aws_vpc.vpc.id
@@ -229,7 +228,7 @@ resource "aws_security_group" "be" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    security_groups = [aws_security_group.fe.id]
   }
   tags = {
     Name = "be_sg"
