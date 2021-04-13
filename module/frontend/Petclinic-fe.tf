@@ -4,7 +4,7 @@ provider "aws" {
 
 data "aws_vpc" "vpc" {
   tags = {
-    Name = "dev-vpc"
+    Name = "${var.environment}-vpc"
   }
 }
 
@@ -27,7 +27,7 @@ data "aws_lb_target_group" "fe_tg" {
 resource "aws_launch_configuration" "petclinic_fe" {
   name_prefix          = "petclinic_fe"
   image_id             = var.ami
-  instance_type        = "t2.micro"
+  instance_type        = var.instance_type
   security_groups      = [data.aws_security_group.fe_sg.id]
   key_name             = var.key_pair
   lifecycle {

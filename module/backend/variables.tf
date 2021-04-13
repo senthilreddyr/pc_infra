@@ -1,36 +1,41 @@
 variable "environment" {
-  description = "The Deployment environment"
+  description = "Environment"
+  type        = string
 }
 
 variable "region" {
-  description = "The region to launch the bastion host"
+  description = "AWS Region"
+  type        = string
 }
 
 variable "ami" {
-  # default = "ami-0729911f6d7f3f1db"
+  description = "AMI"
+  type        = string
+}
+
+variable "instance_type" {
+  description = "Ec2 instance Type"
+  type        = string
 }
 
 variable "key_pair" {
   default = "jenkins"
 }
 
-
 #########DB#######
 
 variable "db_password" {
-  description = "The master password for the database"
+  description = "Database Password"
   type        = string
-  # default     = "petclinic"
 }
 
 variable "db_name" {
-  description = "The name to use for the database"
+  description = "Database Name"
   type        = string
   default     = "petclinic"
 }
 
 variable "db_user" {
-  description = "The database username to use for the database"
+  description = "Database Username"
   type        = string
-  # default     = "postgres"
 }

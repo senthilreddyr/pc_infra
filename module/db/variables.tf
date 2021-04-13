@@ -1,31 +1,52 @@
 variable "environment" {
-  description = "The Deployment environment"
+  description = "Environment"
+  type        = string
 }
 
 variable "region" {
-  description = "The region to launch the bastion host"
+  description = "AWS Region"
+  type        = string
 }
 
-
-#########DB#######
+/* DB */
 
 variable "db_password" {
-  description = "The master password for the database"
+  description = "Database Password"
   type        = string
 }
 
 variable "db_name" {
-  description = "The name to use for the database"
+  description = "Database Name"
   type        = string
   default     = "petclinic"
 }
 
 variable "db_user" {
-  description = "The database username to use for the database"
+  description = "Database Username"
   type        = string
 }
 
 variable "db_instance_class" {
   type    = string
   default = "db.t2.micro"
+}
+
+variable "storage_type" {
+  description = "DB Storage Type"
+  type        = string
+}
+
+variable "parameter_group_name" {
+  description = "DB Parameter group name"
+  type        = string
+}
+
+variable "engine" {
+  description = "DB engine"
+  type        = string
+}
+
+variable "engine_version" {
+  description = "DB engine version"
+  type        = string
 }

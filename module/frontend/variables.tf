@@ -1,15 +1,22 @@
 variable "environment" {
-  description = "The Deployment environment"
+  description = "Environment"
 }
 
 variable "region" {
-  description = "The region to launch the bastion host"
+  description = "AWS Region"
 }
 
 variable "ami" {
-  # default = "ami-0729911f6d7f3f1db"
+  description = "AMI"
+  type        = string
 }
 
 variable "key_pair" {
+  description = "Instance ssh key"
   default = "jenkins"
+}
+
+variable "instance_type" {
+  description = "Ec2 instance Type"
+  type        = string
 }

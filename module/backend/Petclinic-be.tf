@@ -4,7 +4,7 @@ provider "aws" {
 
 data "aws_vpc" "vpc" {
   tags = {
-    Name = "dev-vpc"
+    Name = "${var.environment}-vpc"
   }
 }
 
@@ -31,7 +31,7 @@ data "aws_lb_target_group" "be_tg" {
 resource "aws_launch_configuration" "petclinic_be" {
   name_prefix     = "petclinic_be"
   image_id        = var.ami
-  instance_type   = "t2.micro"
+  instance_type   = var.instance_type
   security_groups = [data.aws_security_group.be_sg.id]
   key_name        = var.key_pair
   user_data_base64 = base64encode(templatefile("${path.module}/scripts/user_data_be.sh", {
