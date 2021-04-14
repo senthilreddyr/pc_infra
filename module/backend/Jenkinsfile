@@ -15,7 +15,7 @@ podTemplate(label: 'mypod', containers: [
              currentBuild.result = 'ABORTED'
              error("Ami_id parameter is mandatory")
         }
-        def AMI_ID = "${params.ami_id}"
+        AMI_ID = "${params.ami_id}"
         stage('Get latest version of code') {
                 script{
                    def scmVar =  checkout([
@@ -42,6 +42,7 @@ podTemplate(label: 'mypod', containers: [
         ]){
           script {
             dir('module/backend'){
+                sh "echo ${AMI_ID}"
                 sh "terraform plan -var 'db_password=$db_password' -var 'db_user=$db_username' -var 'ami=$AMI_ID' -out plan.json"
               }
             }
