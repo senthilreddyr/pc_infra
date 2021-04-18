@@ -1,12 +1,6 @@
-# data "aws_region" "current" {}
-
 provider "aws" {
   region = var.region
 }
-
-# locals {
-#   az1 = "${var.region}a"
-# }
 
 data "aws_vpc" "vpc" {
   tags = {
