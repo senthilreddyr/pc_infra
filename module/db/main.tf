@@ -1,12 +1,12 @@
-data "aws_region" "current" {}
+# data "aws_region" "current" {}
 
 provider "aws" {
   region = var.region
 }
 
-locals {
-  az1 = "${data.aws_region.current.name}a"
-}
+# locals {
+#   az1 = "${var.region}a"
+# }
 
 data "aws_vpc" "vpc" {
   tags = {
@@ -46,7 +46,7 @@ resource "aws_db_instance" "pgdb" {
   skip_final_snapshot     = true
   deletion_protection     = false
   backup_retention_period = 0
-  availability_zone       = local.az1
+  availability_zone       = "${var.region}a"
   vpc_security_group_ids  = [data.aws_security_group.db_sg.id]
   tags = {
     Environment = "${var.environment}-db"

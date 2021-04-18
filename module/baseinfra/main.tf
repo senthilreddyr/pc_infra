@@ -135,7 +135,7 @@ resource "aws_security_group" "fe_lb" {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["202.83.58.148/32"]
   }
   tags = {
     Name = "fe_lb_sg"
@@ -163,19 +163,19 @@ resource "aws_security_group" "fe" {
     security_groups = [aws_security_group.fe_lb.id]
   }
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = ["202.83.58.148/32"]
-  }
+  # ingress {
+  #   from_port   = 22
+  #   to_port     = 22
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["202.83.58.148/32"]
+  # }
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = ["202.83.58.148/32"]
-  }
+  # ingress {
+  #   from_port   = 80
+  #   to_port     = 80
+  #   protocol    = "tcp"
+  #   cidr_blocks = ["202.83.58.148/32"]
+  # }
   tags = {
     Name = "fe_sg"
     Environment = "${var.environment}"
