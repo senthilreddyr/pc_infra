@@ -13,10 +13,10 @@ data "aws_security_group" "fe_sg" {
   vpc_id = data.aws_vpc.vpc.id
 }
 
-data "aws_subnet_ids" "public_subnet" {
+data "aws_subnet_ids" "private_subnet" {
   vpc_id = data.aws_vpc.vpc.id
   tags = {
-    Type = "*public*"
+    Type = "*private*"
   }
 }
 
@@ -44,7 +44,7 @@ resource "aws_autoscaling_group" "petclinic_fe_asg" {
   desired_capacity          = var.desired_capacity
   launch_configuration      = aws_launch_configuration.petclinic_fe.name
   target_group_arns         = [data.aws_lb_target_group.fe_tg.arn]
-  vpc_zone_identifier       = data.aws_subnet_ids.public_subnet.ids
+  vpc_zone_identifier       = data.aws_subnet_ids.private_subnet.ids
   tag {
     key                 = "Name"
     value               = "petclinic-fe-asg"
